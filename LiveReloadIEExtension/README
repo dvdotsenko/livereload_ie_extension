@@ -1,0 +1,47 @@
+Code present in this project is assembled based on and inspired by multitude of examples and tutorials covering the subject of IE BHOs. However the cornerstone of this extension is code sample from here:
+
+http://stackoverflow.com/questions/5643819/developing-internet-explorer-extensions/5740004#5740004
+
+I highly encourage all historical contributors to that StackOverflow entry to claim their contribution and copyright explicitly. Until then, the code is under Apache 2.0 license.
+
+
+
+Should you decide to extend this extension in any way, here are some of the better sources on what to / not to do:
+
+[Browser Extensions](http://msdn.microsoft.com/en-us/library/aa753587.aspx)
+
+[Browser Helper Objects: The Browser the Way You Want It](http://msdn.microsoft.com/en-us/library/ms976373.aspx)
+
+[EnhanceIE.com - Developing IE Add-ons](http://www.enhanceie.com/ie/dev.asp)
+
+[Powering up with Internet Explorer Extensibility - IEBlog - Site Home - MSDN Blogs](http://blogs.msdn.com/b/ie/archive/2005/09/06/461675.aspx)
+
+[Web Accessories](http://msdn.microsoft.com/en-us/library/aa744101.aspx)
+
+[c# - Developing Internet Explorer Extensions? - Stack Overflow](http://stackoverflow.com/questions/5643819/developing-internet-explorer-extensions/5740004#5740004)
+
+[Deployment issues with native C++ BHO -- autoupdating, signing](http://social.msdn.microsoft.com/Forums/eu/winformssetup/thread/f1f37db5-5fcd-4f43-bc8d-edc4f80cc6ad)
+
+[signing BHO or what?](http://www.pcreview.co.uk/forums/signing-bho-t1707186.html)
+
+[SpicIE - Simple Plug-In Creator for Internet Explorer - Discussions](http://archive.msdn.microsoft.com/SpicIE/Thread/View.aspx?ThreadId=5251)
+
+[Add button to IE toolbar (CSIEToolbarButton) in C# for Visual Studio 2010](http://code.msdn.microsoft.com/CSIEToolbarButton-c2f3e3e5)
+
+[Browser Helper Objects: The Browser the Way You Want It](http://msdn.microsoft.com/en-us/library/ms976373.aspx#bho_getintouch)
+
+[c# - Internet Explorer 7+ Addon to control tabs - Stack Overflow](http://stackoverflow.com/questions/11090368/internet-explorer-7-addon-to-control-tabs)
+
+[How to attach to Browser Helper Object (BHO) with C# in two minutes - CodeProject](http://www.codeproject.com/Articles/19971/How-to-attach-to-Browser-Helper-Object-BHO-with-C)
+
+[Understanding Enhanced Protected Mode - IEInternals - Site Home - MSDN Blogs](http://blogs.msdn.com/b/ieinternals/archive/2012/03/23/understanding-ie10-enhanced-protected-mode-network-security-addons-cookies-metro-desktop.aspx)
+
+[A Developer's Survival Guide to IE Protected Mode - CodeProject](http://www.codeproject.com/Articles/18866/A-Developer-s-Survival-Guide-to-IE-Protected-Mode)
+
+[c# - Windows XP: where to write to registry from IE? - Stack Overflow](http://stackoverflow.com/questions/9405152/windows-xp-where-to-write-to-registry-from-ie)
+
+[How to use IE protected mode function IEGetWriteableHKCU () using c# : Cannot implicitly convert type 'uint' to 'Microsoft.Win32.RegistryKey': c# ieframe.dll IEGetWriteableHKCU protected mode](http://www.experts-exchange.com/Programming/Languages/C_Sharp/Q_24752736.html)
+
+[Alternative way to detect refresh in a BHO](http://social.msdn.microsoft.com/Forums/en-US/ieextensiondevelopment/thread/7a3a8d96-52f5-4ec0-a395-222c3dffa4b2)
+
+[PeteSearch: Writing a BHO installer](http://petewarden.typepad.com/searchbrowser/2007/07/writing-a-bho-i.html)
