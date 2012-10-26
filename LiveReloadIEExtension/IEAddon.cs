@@ -3,9 +3,8 @@ using System.IO;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using SHDocVw;
-using mshtml;
 using Microsoft.Win32;
-using System.Windows.Forms;
+using System.Reflection;
 
 namespace LiveReload {
     [ComVisible(true)]
@@ -16,7 +15,7 @@ namespace LiveReload {
         IWebBrowser2 browser;
 
         #region
-        public void InjectScriptResource(IHTMLWindow2 window, string resourcepath) {
+        public void InjectScriptResource(object window, string resourcepath) {
             // Resource's path is **Default Namespace** (from project properties) + '.' + file name.
             // see http://www.codeproject.com/KB/dotnet/embeddedresources.aspx
             // and http://www.jelovic.com/articles/resources_in_visual_studio.htm
@@ -25,7 +24,16 @@ namespace LiveReload {
                 if (script == null) {
                     throw new Exception("Could not read resource '" + resourcepath + "'");
                 }
-                window.execScript((new StreamReader(script)).ReadToEnd());
+
+                object[] args = new object[1];
+                args[0] = (new StreamReader(script)).ReadToEnd();
+                window.GetType().InvokeMember(
+                    "execScript"
+                    , BindingFlags.InvokeMethod
+                    , null
+                    , window
+                    , args
+                );
             }
         }
 
@@ -49,12 +57,19 @@ namespace LiveReload {
 
         public void InsertLiveReloadAndFriends() {
             if (browser!= null && IsSupportedURL(browser.LocationURL)) {
-                var document = browser.Document as IHTMLDocument2;
-                var window = document.parentWindow;
+                object doc = browser.Document;
+                object window = doc.GetType().InvokeMember(
+                    "parentWindow"
+                    , BindingFlags.GetProperty
+                    , null
+                    , doc
+                    , null 
+                );
+
                 try {
                     InjectScriptResource(window, "one_script_to_rule_them_all.js");
                 } catch (Exception ex) {
-                    window.alert("LiveReload encountered an error: " + ex.Message + " " + ex.StackTrace);
+                    //window.alert("LiveReload encountered an error: " + ex.Message + " " + ex.StackTrace);
                 }
             }
         }
