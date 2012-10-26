@@ -76,10 +76,7 @@
     <None Include="signingkey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="scripts\insert_livereload.js" />
-    <EmbeddedResource Include="scripts\setup.js" />
-    <EmbeddedResource Include="scripts\swfobject.js" />
-    <EmbeddedResource Include="scripts\websocket_emulator.js" />
+    <EmbeddedResource Include="scripts\one_script_to_rule_them_all.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

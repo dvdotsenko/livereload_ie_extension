@@ -29,7 +29,7 @@ namespace LiveReload {
             }
         }
 
-        public bool IsSupportedURL(HTMLLocation location) {
+        public bool IsSupportedURL(string url) {
             // The following host name patterns are supported:
 
             // - protocol is one of: "http" or "https" AND ONE OF BELOW:
@@ -37,58 +37,31 @@ namespace LiveReload {
             //  - host name starts with "test." (last subdomain is 'test')
             //  - the host is serving on port higher than 1024 (unlikely to be public server, but allows all IP addresses as hostname.
 
-            if (location.protocol != "http:" && location.protocol != "https:") return false;
-
-            if (location.hostname == "localhost") return true;
-            if (location.hostname.StartsWith("test.")) return true;
-
-            var port = location.port;
-            if (String.IsNullOrEmpty(port)) {
-                port = "80";
-            }
-            int portnumber = 0;
-            if (Int32.TryParse(port, out portnumber) && portnumber > 1024) {
-                return true;
-            }
+            try {
+                System.Uri uriobj = new System.Uri(url);
+                if (uriobj.Scheme == System.Uri.UriSchemeHttp || uriobj.Scheme == System.Uri.UriSchemeHttps) { } else { return false; }
+                if (uriobj.IsLoopback) { return true; }
+                if (uriobj.Host.StartsWith("test.")) { return true; }
+                if (uriobj.Port > 1024) { return true; }
+            } catch (Exception) {}
             return false;
         }
 
         public void InsertLiveReloadAndFriends() {
-            var document = browser.Document as IHTMLDocument2;
-            var window = document.parentWindow;
-
-            if (IsSupportedURL(window.location)) {
+            if (browser!= null && IsSupportedURL(browser.LocationURL)) {
+                var document = browser.Document as IHTMLDocument2;
+                var window = document.parentWindow;
                 try {
-                    InjectScriptResource(window, "setup.js");
-                    InjectScriptResource(window, "swfobject.js");
-                    InjectScriptResource(window, "websocket_emulator.js");
-                    InjectScriptResource(window, "insert_livereload.js");
+                    InjectScriptResource(window, "one_script_to_rule_them_all.js");
                 } catch (Exception ex) {
                     window.alert("LiveReload encountered an error: " + ex.Message + " " + ex.StackTrace);
                 }
             }
         }
 
-        public void RefreshHandler(IHTMLEventObj e) {
+        public void OnDownloadComplete() {
             InsertLiveReloadAndFriends();
         }
-
-        public void OnDownloadComplete() {
-            if (browser != null) {
-                HTMLDocument doc = browser.Document as HTMLDocument;
-                if (doc != null) {
-                    var window = doc.parentWindow;
-                    if (window != null) {
-                        HTMLWindowEvents2_Event events = (window as HTMLWindowEvents2_Event);
-                        try {
-                            events.onload -= new HTMLWindowEvents2_onloadEventHandler(RefreshHandler);
-                        } catch { }
-                        events.onload += new HTMLWindowEvents2_onloadEventHandler(RefreshHandler);
-                    }
-                }
-            }
-        }
-
         public void OnDocumentComplete(object pDisp, ref object URL) {
             InsertLiveReloadAndFriends();
         }
@@ -97,7 +70,6 @@ namespace LiveReload {
         #region Implementation of IObjectWithSite
         int IObjectWithSite.SetSite(object site) {
             if (site != null) {
-                //LoadOptions();
                 browser = (IWebBrowser2)site;
                 ((DWebBrowserEvents2_Event)browser).DocumentComplete +=
                     new DWebBrowserEvents2_DocumentCompleteEventHandler(this.OnDocumentComplete);
